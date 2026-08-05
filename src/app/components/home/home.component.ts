@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -6,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-home',
   standalone: true,
   imports: [
+    RouterLink,
     MatButtonModule,
     MatIconModule,
   ],
@@ -14,4 +16,3 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class HomeComponent {
 }
-

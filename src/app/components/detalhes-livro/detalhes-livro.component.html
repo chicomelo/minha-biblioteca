@@ -1,0 +1,49 @@
+<main class="conteudo">
+  @if (livro) {
+    <mat-card>
+      <mat-card-header>
+        <mat-icon mat-card-avatar>menu_book</mat-icon>
+        <mat-card-title>{{ livro.titulo }}</mat-card-title>
+        <mat-card-subtitle>{{ livro.autor }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <dl>
+          <dt>Categoria</dt>
+          <dd>{{ livro.categoria }}</dd>
+
+          <dt>Ano de publicação</dt>
+          <dd>{{ livro.anoPublicacao }}</dd>
+
+          <dt>Status de leitura</dt>
+          <dd>{{ livro.status }}</dd>
+
+          @if (livro.nota) {
+            <dt>Nota</dt>
+            <dd>{{ livro.nota }}/5</dd>
+          }
+
+          @if (livro.observacoes) {
+            <dt>Observações</dt>
+            <dd>{{ livro.observacoes }}</dd>
+          }
+        </dl>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <a mat-button routerLink="/livros">Voltar</a>
+        <a mat-raised-button color="primary" [routerLink]="['/livros', livro._id, 'editar']">
+          Editar
+        </a>
+      </mat-card-actions>
+    </mat-card>
+  } @else {
+    <mat-card>
+      <mat-card-content>
+        <h1>Livro não encontrado</h1>
+        <a mat-button routerLink="/livros">Voltar para a lista</a>
+      </mat-card-content>
+    </mat-card>
+  }
+</main>
+

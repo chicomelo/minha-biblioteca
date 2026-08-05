@@ -1,0 +1,79 @@
+<main class="conteudo">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ editando ? 'Editar livro' : 'Novo livro' }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ editando ? 'Atualize os dados do livro.' : 'Cadastre um livro na sua biblioteca.' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="formLivro" (ngSubmit)="salvar()">
+        <mat-form-field appearance="outline">
+          <mat-label>Título</mat-label>
+          <input matInput formControlName="titulo">
+          @if (formLivro.controls.titulo.hasError('required')) {
+            <mat-error>Informe o título.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Autor</mat-label>
+          <input matInput formControlName="autor">
+          @if (formLivro.controls.autor.hasError('required')) {
+            <mat-error>Informe o autor.</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="duas-colunas">
+          <mat-form-field appearance="outline">
+            <mat-label>Categoria</mat-label>
+            <input matInput formControlName="categoria">
+            @if (formLivro.controls.categoria.hasError('required')) {
+              <mat-error>Informe a categoria.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Ano de publicação</mat-label>
+            <input matInput type="number" formControlName="anoPublicacao">
+            @if (formLivro.controls.anoPublicacao.hasError('required')) {
+              <mat-error>Informe o ano.</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="duas-colunas">
+          <mat-form-field appearance="outline">
+            <mat-label>Status de leitura</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="quero-ler">Quero ler</mat-option>
+              <mat-option value="lendo">Lendo</mat-option>
+              <mat-option value="concluido">Concluído</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Nota</mat-label>
+            <input matInput type="number" min="0" max="5" formControlName="nota">
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Observações</mat-label>
+          <textarea matInput rows="4" formControlName="observacoes"></textarea>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="favorito">Livro favorito</mat-checkbox>
+
+        <div class="acoes">
+          <a mat-button routerLink="/livros">Cancelar</a>
+          <button mat-raised-button color="primary" type="submit" [disabled]="formLivro.invalid">
+            Salvar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</main>
+
