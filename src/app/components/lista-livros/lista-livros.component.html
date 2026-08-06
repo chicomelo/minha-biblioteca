@@ -1,40 +1,49 @@
 <main class="conteudo">
-  <header class="cabecalho">
-    <div>
-      <h1>Meus livros</h1>
-      <p>{{ livros.length }} livros cadastrados</p>
-    </div>
+  @if (livros$ | async; as livros) {
+    <header class="cabecalho">
+      <div>
+        <h1>Meus livros</h1>
+        <p>{{ livros.length }} livros cadastrados</p>
+      </div>
 
-    <a mat-raised-button color="primary" routerLink="/livros/novo">
-      <mat-icon>add</mat-icon>
-      Novo livro
-    </a>
-  </header>
+      <a mat-raised-button color="primary" routerLink="/livros/novo">
+        <mat-icon>add</mat-icon>
+        Novo livro
+      </a>
+    </header>
 
-  <section class="lista">
-    @for (livro of livros; track livro._id) {
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{ livro.titulo }}</mat-card-title>
-          <mat-card-subtitle>{{ livro.autor }}</mat-card-subtitle>
-        </mat-card-header>
+    <section class="lista">
+      @for (livro of livros; track livro._id) {
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ livro.titulo }}</mat-card-title>
+            <mat-card-subtitle>{{ livro.autor }}</mat-card-subtitle>
+          </mat-card-header>
 
-        <mat-card-content>
-          <p>{{ livro.categoria }} • {{ livro.anoPublicacao }}</p>
-          <p>Status: {{ livro.status }}</p>
+          <mat-card-content>
+            <p>{{ livro.categoria }} • {{ livro.anoPublicacao }}</p>
+            <p>Status: {{ livro.status | statusLeitura }}</p>
 
-          @if (livro.nota) {
-            <p>Nota: {{ livro.nota }}/5</p>
-          }
-        </mat-card-content>
+            @if (livro.nota) {
+              <p>Nota: {{ livro.nota }}/5</p>
+            }
+          </mat-card-content>
 
-        <mat-card-actions>
-          @if (livro.favorito) {
-            <mat-icon color="warn" aria-label="Livro favorito">favorite</mat-icon>
-          }
-          <a mat-button [routerLink]="['/livros', livro._id]">Detalhes</a>
-        </mat-card-actions>
-      </mat-card>
-    }
-  </section>
+          <mat-card-actions>
+            @if (livro.favorito) {
+              <mat-icon color="warn" aria-label="Livro favorito">favorite</mat-icon>
+            }
+            <a mat-button [routerLink]="['/livros', livro._id]">Detalhes</a>
+            <button mat-button color="warn" (click)="excluir(livro._id)">
+              Excluir
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <p>Nenhum livro cadastrado.</p>
+      }
+    </section>
+  } @else {
+    <p>Carregando livros...</p>
+  }
 </main>

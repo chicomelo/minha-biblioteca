@@ -8,6 +8,11 @@ mat-card {
   width: 100%;
 }
 
+.erro {
+  color: #b00020;
+  margin: 24px 0 0;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -42,4 +47,3 @@ form {
     gap: 0;
   }
 }
-

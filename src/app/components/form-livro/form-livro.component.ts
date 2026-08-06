@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,7 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
-import { LIVROS_EXEMPLO } from '../../data/livros-exemplo';
+import { Livro, StatusLeitura } from '../../models/livro';
+import { LivroService } from '../../services/livro.service';
 
 @Component({
   selector: 'app-form-livro',
@@ -26,12 +27,15 @@ import { LIVROS_EXEMPLO } from '../../data/livros-exemplo';
   templateUrl: './form-livro.component.html',
   styleUrl: './form-livro.component.css',
 })
-export class FormLivroComponent {
+export class FormLivroComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private livroService = inject(LivroService);
 
   public readonly id = this.route.snapshot.paramMap.get('id');
   public readonly editando = Boolean(this.id);
+  public mensagemErro = '';
 
   public formLivro = this.formBuilder.group({
     titulo: ['', Validators.required],
@@ -44,14 +48,28 @@ export class FormLivroComponent {
     favorito: [false],
   });
 
-  constructor() {
-    if (this.id) {
-      const livro = LIVROS_EXEMPLO.find((item) => item._id === Number(this.id));
-
-      if (livro) {
-        this.formLivro.patchValue(livro);
-      }
+  public ngOnInit(): void {
+    if (!this.id) {
+      return;
     }
+
+    this.livroService.get(Number(this.id)).subscribe({
+      next: (livro) => {
+        this.formLivro.patchValue({
+          titulo: livro.titulo,
+          autor: livro.autor,
+          categoria: livro.categoria,
+          anoPublicacao: livro.anoPublicacao,
+          status: livro.status,
+          nota: livro.nota ?? null,
+          observacoes: livro.observacoes ?? '',
+          favorito: livro.favorito,
+        });
+      },
+      error: () => {
+        this.mensagemErro = 'Não foi possível carregar o livro.';
+      },
+    });
   }
 
   public salvar(): void {
@@ -60,7 +78,29 @@ export class FormLivroComponent {
       return;
     }
 
-    window.alert('O formulário está preenchido. O salvamento será conectado ao banco depois.');
+    const valores = this.formLivro.getRawValue();
+    const livro: Livro = {
+      _id: this.id ? Number(this.id) : 0,
+      titulo: valores.titulo ?? '',
+      autor: valores.autor ?? '',
+      categoria: valores.categoria ?? '',
+      anoPublicacao: Number(valores.anoPublicacao),
+      status: valores.status as StatusLeitura,
+      nota: valores.nota ?? undefined,
+      observacoes: valores.observacoes ?? undefined,
+      favorito: valores.favorito ?? false,
+    };
+
+    const requisicao = this.editando
+      ? this.livroService.put(livro)
+      : this.livroService.post(livro);
+
+    requisicao.subscribe({
+      next: () => this.router.navigate(['/livros']),
+      error: () => {
+        this.mensagemErro = 'Não foi possível salvar o livro.';
+      },
+    });
   }
 }
 

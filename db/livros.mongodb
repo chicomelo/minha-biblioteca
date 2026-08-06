@@ -32,5 +32,23 @@ db.livros.insertMany([
     status: 'quero-ler',
     favorito: false,
   },
+  {
+    _id: 4,
+    titulo: '1984',
+    autor: 'George Orwell',
+    categoria: 'Ficção',
+    anoPublicacao: 1949,
+    status: 'concluido',
+    nota: 5,
+    favorito: true,
+  },
+  {
+    _id: 5,
+    titulo: 'A Hora da Estrela',
+    autor: 'Clarice Lispector',
+    categoria: 'Romance',
+    anoPublicacao: 1977,
+    status: 'lendo',
+    favorito: false,
+  },
 ]);
-

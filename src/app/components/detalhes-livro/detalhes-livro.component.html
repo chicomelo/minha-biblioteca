@@ -1,5 +1,5 @@
 <main class="conteudo">
-  @if (livro) {
+  @if (livro$ | async; as livro) {
     <mat-card>
       <mat-card-header>
         <mat-icon mat-card-avatar>menu_book</mat-icon>
@@ -16,7 +16,7 @@
           <dd>{{ livro.anoPublicacao }}</dd>
 
           <dt>Status de leitura</dt>
-          <dd>{{ livro.status }}</dd>
+          <dd>{{ livro.status | statusLeitura }}</dd>
 
           @if (livro.nota) {
             <dt>Nota</dt>
@@ -46,4 +46,3 @@
     </mat-card>
   }
 </main>
-
