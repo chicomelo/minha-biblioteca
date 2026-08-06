@@ -4,9 +4,25 @@
 
   <span class="espacador"></span>
 
-  <button mat-button routerLink="/home">Início</button>
-  <button mat-button routerLink="/livros">Livros</button>
-  <button mat-button routerLink="/sobre">Sobre</button>
+  <nav class="menu-desktop" aria-label="Navegação principal">
+    <button mat-button routerLink="/home">Início</button>
+    <button mat-button routerLink="/livros">Livros</button>
+    <button mat-button routerLink="/sobre">Sobre</button>
+  </nav>
+
+  <button
+    class="menu-mobile"
+    mat-icon-button
+    [matMenuTriggerFor]="menuMobile"
+    aria-label="Abrir menu de navegação">
+    <mat-icon>menu</mat-icon>
+  </button>
 </mat-toolbar>
+
+<mat-menu #menuMobile="matMenu">
+  <button mat-menu-item routerLink="/home">Início</button>
+  <button mat-menu-item routerLink="/livros">Livros</button>
+  <button mat-menu-item routerLink="/sobre">Sobre</button>
+</mat-menu>
 
 <router-outlet />

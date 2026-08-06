@@ -6,3 +6,20 @@
   flex: 1 1 auto;
 }
 
+.menu-mobile {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .titulo {
+    font-size: 16px;
+  }
+
+  .menu-desktop {
+    display: none;
+  }
+
+  .menu-mobile {
+    display: inline-flex;
+  }
+}

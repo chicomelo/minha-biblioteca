@@ -4,11 +4,11 @@ import {
   ComponentFixture,
   TestBed,
 } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-
   let fixture: ComponentFixture<AppComponent>;
   let app: AppComponent;
 
@@ -17,7 +17,11 @@ describe('AppComponent', () => {
       imports: [
         AppComponent,
       ],
+      providers: [
+        provideRouter([]),
+      ],
     }).compileComponents();
+
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.componentInstance;
   });
@@ -26,14 +30,11 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'angular17-app' title`, () => {
-    expect(app.title).toEqual('angular17-app');
-  });
-
-  it('should render title', () => {
+  it('should render the application name', () => {
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, angular17-app');
-  });
 
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.textContent).toContain('Minha Biblioteca');
+  });
 });

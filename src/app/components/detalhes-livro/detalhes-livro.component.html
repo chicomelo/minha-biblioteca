@@ -1,11 +1,13 @@
 <main class="conteudo">
   @if (livro$ | async; as livro) {
     <mat-card>
-      <mat-card-header>
-        <mat-icon mat-card-avatar>menu_book</mat-icon>
-        <mat-card-title>{{ livro.titulo }}</mat-card-title>
-        <mat-card-subtitle>{{ livro.autor }}</mat-card-subtitle>
-      </mat-card-header>
+      <div class="cabecalho-detalhe">
+        <mat-icon class="icone-detalhe" aria-hidden="true">menu_book</mat-icon>
+        <div class="texto-cabecalho">
+          <mat-card-title>{{ livro.titulo }}</mat-card-title>
+          <mat-card-subtitle>{{ livro.autor }}</mat-card-subtitle>
+        </div>
+      </div>
 
       <mat-card-content>
         <dl>

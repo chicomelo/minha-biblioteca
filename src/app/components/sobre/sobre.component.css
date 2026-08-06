@@ -7,6 +7,10 @@
   box-sizing: border-box;
 }
 
+.sobre {
+  padding-top: 24px;
+}
+
 mat-card {
   width: 100%;
   max-width: 640px;
@@ -17,4 +21,3 @@ mat-card {
     min-height: calc(100vh - 56px);
   }
 }
-

@@ -3,7 +3,7 @@
     <header class="cabecalho">
       <div>
         <h1>Meus livros</h1>
-        <p>{{ livros.length }} livros cadastrados</p>
+        <p>{{ livrosFiltrados(livros).length }} livros exibidos</p>
       </div>
 
       <a mat-raised-button color="primary" routerLink="/livros/novo">
@@ -12,9 +12,31 @@
       </a>
     </header>
 
+    <section class="filtros">
+      <mat-form-field appearance="outline">
+        <mat-label>Buscar livro</mat-label>
+        <input
+          matInput
+          placeholder="Título ou autor"
+          [value]="busca"
+          (input)="atualizarBusca($event)"
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [(value)]="statusSelecionado">
+          <mat-option value="todos">Todos</mat-option>
+          <mat-option value="quero-ler">Quero ler</mat-option>
+          <mat-option value="lendo">Lendo</mat-option>
+          <mat-option value="concluido">Concluído</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+
     <section class="lista">
-      @for (livro of livros; track livro._id) {
-        <mat-card>
+      @for (livro of livrosFiltrados(livros); track livro._id) {
+        <mat-card [appLivroFavorito]="livro.favorito">
           <mat-card-header>
             <mat-card-title>{{ livro.titulo }}</mat-card-title>
             <mat-card-subtitle>{{ livro.autor }}</mat-card-subtitle>
@@ -30,9 +52,15 @@
           </mat-card-content>
 
           <mat-card-actions>
-            @if (livro.favorito) {
-              <mat-icon color="warn" aria-label="Livro favorito">favorite</mat-icon>
-            }
+            <button
+              mat-icon-button
+              class="favorito-botao"
+              [color]="livro.favorito ? 'warn' : undefined"
+              [attr.aria-label]="livro.favorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'"
+              (click)="alternarFavorito(livro)"
+            >
+              <mat-icon>{{ livro.favorito ? 'favorite' : 'favorite_border' }}</mat-icon>
+            </button>
             <a mat-button [routerLink]="['/livros', livro._id]">Detalhes</a>
             <button mat-button color="warn" (click)="excluir(livro._id)">
               Excluir
@@ -40,7 +68,7 @@
           </mat-card-actions>
         </mat-card>
       } @empty {
-        <p>Nenhum livro cadastrado.</p>
+        <p>Nenhum livro encontrado.</p>
       }
     </section>
   } @else {
